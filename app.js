@@ -37,13 +37,12 @@ form.addEventListener('submit', async event => {
   localStorage.setItem('anniversaire-rsvp', JSON.stringify(data));
 
   try {
-    const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
+    await fetch(GOOGLE_APPS_SCRIPT_URL, {
       method: 'POST',
-      redirect: 'follow',
+      mode: 'no-cors',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(data)
     });
-    if (!response.ok) throw new Error('Le formulaire distant a refusé la réponse.');
     successMessage.textContent = 'C’est noté, ta réponse est bien partie chez nous. À très vite pour fêter ça !';
   } catch {
     successMessage.textContent = 'Oups, ta réponse est sauvegardée sur cet appareil mais n’a pas pu être envoyée. Réessaie dans un instant ou contacte-nous directement.';
