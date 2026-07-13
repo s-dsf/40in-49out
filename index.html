@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#c58061" />
+    <title>Échappée bohème — Anniversaire de Stéphanie &amp; David</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Playfair+Display:ital,wght@0,600;0,700;1,600&amp;display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main>
+      <section class="hero" id="accueil">
+        <nav class="nav"><a class="brand" href="#accueil" aria-label="Stéphanie et David, accueil"><span class="initial">S</span><i>&amp;</i><span class="initial">D</span></a><a class="nav-link" href="#inscription">Je m’inscris <span>→</span></a></nav>
+        <div class="hero-copy">
+          <h1>Stéphanie &amp; David<br /><em>célèbrent leur quarantaine</em></h1>
+          <p class="intro">Quatre jours pour se retrouver, trinquer, danser et faire plein de bons souvenirs. Bref : on vous veut avec nous !</p>
+          <a class="button button-light" href="#inscription">Répondre à l’invitation <span>↓</span></a>
+        </div>
+        <div class="date-badge"><span>Week-end</span><strong>6 → 9</strong><small>mai 2027</small></div>
+        <div class="sun"></div><div class="celebration" aria-hidden="true"><span>40</span><i>✦</i><span>49</span><small>on sort les paillettes</small></div>
+        <div class="confetti confetti-one" aria-hidden="true">✦</div><div class="confetti confetti-two" aria-hidden="true">●</div><div class="confetti confetti-three" aria-hidden="true">✺</div>
+      </section>
+
+      <section class="details" aria-labelledby="details-title">
+        <div class="section-heading"><h2 id="details-title">Tout ce qu’il faut<br />savoir <em>avant de venir</em></h2></div>
+        <div class="detail-grid">
+          <article><div class="icon">◷</div><h3>Du 6 au 9 mai 2027</h3><p>Le week-end démarre le jeudi 6 mai et se termine le dimanche 9. Choisis simplement tes dates de présence dans le formulaire.</p></article>
+          <article><div class="icon">⌂</div><h3>Gîte Deldadetcha</h3><p>901 route du Bousquet<br />40230 Saubrigues</p><a href="https://www.google.com/maps/place//data=!4m2!3m1!1s0xd514f687ff884a5:0x602b46a3c74fa937?sa=X&amp;ved=1t:8290&amp;ictx=111" target="_blank" rel="noreferrer">Ouvrir l’itinéraire ↗</a></article>
+          <article><div class="icon">⌁</div><h3>Le mood du week-end</h3><p>De grandes tablées, des guirlandes, de la musique, des verres qui tintent et de la place pour profiter à fond.</p></article>
+        </div>
+      </section>
+
+      <section class="notes">
+        <p>« Un peu de bohème, beaucoup de love et surtout zéro prise de tête. »</p>
+        <div class="notes-grid"><div><span>Dress code</span><strong>Bohème chic, beige, écru &amp; tons naturels</strong></div><div><span>Les kids</span><strong>Ils sont les bienvenus !</strong></div><div><span>À ne pas oublier</span><strong>Ta bonne humeur, le reste on gère</strong></div></div>
+      </section>
+
+      <section class="rsvp" id="inscription">
+        <div class="rsvp-intro"><p class="eyebrow coral">Confirmation de présence</p><h2>On compte<br /><em>sur vous ?</em></h2><p>Merci de répondre avant le <strong>15 novembre</strong>, cela nous aide à préparer une fête aux petits oignons.</p><div class="little-stars">✦ &nbsp; ✿ &nbsp; ✦</div></div>
+        <form id="rsvpForm" novalidate>
+          <div class="form-row"><label>Prénom et nom<input required name="name" autocomplete="name" placeholder="Ton prénom et ton nom" /></label><label>Téléphone<input required type="tel" name="phone" autocomplete="tel" placeholder="06 00 00 00 00" /></label></div>
+          <label>E-mail<input required type="email" name="email" autocomplete="email" placeholder="toi@exemple.fr" /></label>
+          <fieldset><legend>Serez-vous des nôtres ?</legend><div class="choice-row"><label class="choice"><input type="radio" name="attendance" value="oui" required checked /><span>Avec plaisir !</span></label><label class="choice"><input type="radio" name="attendance" value="non" /><span>Hélas, non</span></label></div></fieldset>
+          <div class="attendance-fields">
+            <div class="form-row"><label>Tu arrives quand ?<select name="arrival"><option value="jeudi 6 mai">Jeudi 6 mai</option><option value="vendredi 7 mai">Vendredi 7 mai</option><option value="samedi 8 mai">Samedi 8 mai</option><option value="dimanche 9 mai">Dimanche 9 mai</option><option value="incertain">Je ne sais pas encore</option></select></label><label>Et tu repars quand ?<select name="departure"><option value="dimanche 9 mai">Dimanche 9 mai</option><option value="samedi 8 mai">Samedi 8 mai</option><option value="vendredi 7 mai">Vendredi 7 mai</option><option value="jeudi 6 mai">Jeudi 6 mai</option><option value="incertain">Je ne sais pas encore</option></select></label></div>
+            <div class="form-row"><label>Heure d’arrivée <small>(si tu la connais)</small><input type="time" name="arrivalTime" /></label><label>Heure de départ <small>(si tu la connais)</small><input type="time" name="departureTime" /></label></div>
+            <div class="guests"><label>Adultes <div class="stepper"><button type="button" data-step="adults" data-delta="-1" aria-label="Moins d’adultes">−</button><output id="adultsValue">1</output><button type="button" data-step="adults" data-delta="1" aria-label="Plus d’adultes">+</button></div><input type="hidden" name="adults" value="1" /></label><label>Enfants <div class="stepper"><button type="button" data-step="children" data-delta="-1" aria-label="Moins d’enfants">−</button><output id="childrenValue">0</output><button type="button" data-step="children" data-delta="1" aria-label="Plus d’enfants">+</button></div><input type="hidden" name="children" value="0" /></label></div>
+            <div id="guestDetails" class="guest-details" aria-live="polite"></div>
+            <div class="form-row"><label>Tu dors sur place ?<select name="sleeping"><option value="oui">Je m’inscris sur la liste pour le couchage</option><option value="non">Non, je rentre / je loge ailleurs</option><option value="incertain">Je ne sais pas encore</option></select><small>On te recontacte pour valider ou non la disponibilité d’un couchage.</small></label><label>Comment tu viens ?<select name="transport"><option value="voiture">En voiture</option><option value="train">En train</option><option value="avion">En avion</option><option value="autre">Autrement</option></select></label></div>
+            <div class="form-row"><label>Gare ou aéroport d’arrivée<input name="arrivalStation" placeholder="Ex. Biarritz Pays Basque" /></label><label>Régime ou allergies<select name="food"><option value="aucun">Aucun en particulier</option><option value="vegetarien">Végétarien</option><option value="sans-lactose">Sans lactose</option><option value="sans-gluten">Sans gluten</option><option value="allergie">Allergie / autre</option></select></label></div>
+            <label>Un mot, une précision, un tube à réclamer ?<textarea name="message" rows="3" placeholder="On t’écoute…"></textarea></label>
+          </div>
+          <button class="button submit" type="submit">C’est parti, je m’inscris <span>→</span></button><p class="form-note">Tes infos servent uniquement à nous aider à organiser ce week-end.</p>
+        </form>
+        <div id="success" class="success hidden" role="status"><div>✦</div><h3>Merci !</h3><p id="successMessage"></p><button class="text-button" type="button" id="editResponse">Modifier ma réponse</button></div>
+      </section>
+    </main>
+    <footer>Fait avec beaucoup de joie · Stéphanie &amp; David · 2027</footer>
+    <script src="app.js"></script>
+  </body>
+</html>
