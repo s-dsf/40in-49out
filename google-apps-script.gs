@@ -4,6 +4,9 @@
  * Type : application web ; exécuter en tant que : vous ; accès : toute personne.
  */
 const SHEET_NAME = 'Réponses';
+const EMAIL_LOG_SHEET_NAME = 'Journal e-mails';
+// Facultatif : indiquez votre adresse ici pour tester l’envoi depuis Apps Script.
+const TEST_RECIPIENT = '';
 
 function doGet() {
   return ContentService.createTextOutput('Le formulaire RSVP est prêt.');
@@ -20,11 +23,37 @@ function doPost(event) {
       sheet.setFrozenRows(1);
     }
     sheet.appendRow([data.confirmedAt, data.name, data.phone, data.email, data.attendance, data.arrival, data.arrivalTime, data.departure, data.departureTime, data.adults, data.children, JSON.stringify(data.guests || []), data.sleeping, data.transport, data.arrivalStation, data.food, data.message]);
-    sendConfirmationEmail(data);
+    try {
+      sendConfirmationEmail(data);
+      logEmailStatus(spreadsheet, data.email, 'Envoyé');
+    } catch (emailError) {
+      logEmailStatus(spreadsheet, data.email, `Erreur : ${emailError.message}`);
+      throw emailError;
+    }
     return ContentService.createTextOutput(JSON.stringify({ ok: true })).setMimeType(ContentService.MimeType.JSON);
   } catch (error) {
     return ContentService.createTextOutput(JSON.stringify({ ok: false, error: error.message })).setMimeType(ContentService.MimeType.JSON);
   }
+}
+
+function logEmailStatus(spreadsheet, recipient, status) {
+  const log = spreadsheet.getSheetByName(EMAIL_LOG_SHEET_NAME) || spreadsheet.insertSheet(EMAIL_LOG_SHEET_NAME);
+  if (log.getLastRow() === 0) {
+    log.appendRow(['Date', 'Destinataire', 'Statut']);
+    log.setFrozenRows(1);
+  }
+  log.appendRow([new Date(), recipient, status]);
+}
+
+function sendTestEmail() {
+  const recipient = TEST_RECIPIENT || Session.getEffectiveUser().getEmail();
+  if (!recipient) throw new Error('Ajoutez votre adresse e-mail dans TEST_RECIPIENT avant de lancer le test.');
+  MailApp.sendEmail({
+    to: recipient,
+    subject: 'Test e-mail — anniversaire Stéphanie & David',
+    body: 'Si vous recevez cet e-mail, les confirmations RSVP sont correctement configurées.',
+    name: 'Stéphanie & David · Mai 2027'
+  });
 }
 
 function sendConfirmationEmail(data) {
