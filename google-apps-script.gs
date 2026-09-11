@@ -17,6 +17,7 @@ function doPost(event) {
     const data = JSON.parse(event.postData.contents);
     const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
     const sheet = spreadsheet.getSheetByName(SHEET_NAME) || spreadsheet.insertSheet(SHEET_NAME);
+    logEmailStatus(spreadsheet, data.email, 'Tentative d’envoi');
 
     if (sheet.getLastRow() === 0) {
       sheet.appendRow(['Reçu le', 'Nom', 'Téléphone', 'E-mail', 'Présence', 'Jour d’arrivée', 'Heure d’arrivée', 'Jour de départ', 'Heure de départ', 'Adultes', 'Enfants', 'Invités (prénoms / âges)', 'Dort sur place', 'Transport', 'Gare / aéroport d’arrivée', 'Régime / allergies', 'Message']);
