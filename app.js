@@ -3,7 +3,7 @@ const success = document.querySelector('#success');
 const rsvpIntro = document.querySelector('.rsvp-intro');
 const successMessage = document.querySelector('#successMessage');
 const values = { adults: 1, children: 0 };
-const GOOGLE_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyYG7A64yKEnifhRWUj5knZSeWWbazZETcZFOyrijeasr8vJxiIkd19gji0HbrEq7Lb/exec';
+const GOOGLE_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwDRXdTGgDV0GG4t6oOU5F4EQLX_KvpWMUwYa-ODDzL442R5_zo2yED9Zoq7hwpMTAs/exec';
 
 function renderGuestDetails() {
   const fields = [];
