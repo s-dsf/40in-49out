@@ -17,6 +17,28 @@ function getSavedData() {
 }
 
 /**
+ * Gère l'affichage, l'activation et la désactivation des champs liés à la présence.
+ * Utilise disabled (pas seulement display:none) pour :
+ *   - exclure les champs de la validation HTML5 (required ignoré sur disabled)
+ *   - exclure les valeurs du FormData lors de la soumission
+ */
+function toggleAttendanceFields(attending) {
+  const attendanceFields = document.querySelector('.attendance-fields');
+  const controls = attendanceFields.querySelectorAll('input, select, textarea, button[type="button"]');
+
+  if (attending) {
+    attendanceFields.style.display = 'block';
+    controls.forEach(el => el.removeAttribute('disabled'));
+    renderGuestDetails();
+  } else {
+    attendanceFields.style.display = 'none';
+    controls.forEach(el => el.setAttribute('disabled', ''));
+    // Vider les champs dynamiques pour éviter des required orphelins
+    document.querySelector('#guestDetails').innerHTML = '';
+  }
+}
+
+/**
  * Remplit le formulaire avec les données sauvegardées
  */
 function populateFormWithSavedData() {
@@ -52,12 +74,8 @@ function populateFormWithSavedData() {
   setField('adults', values.adults);
   setField('children', values.children);
 
-  // Afficher/masquer les champs de présence
-  if (savedData.attendance === 'non') {
-    document.querySelector('.attendance-fields').style.display = 'none';
-  }
-
-  renderGuestDetails();
+  // Appliquer la visibilité correcte selon la réponse sauvegardée
+  toggleAttendanceFields(savedData.attendance !== 'non');
 }
 
 /**
@@ -107,16 +125,11 @@ document.querySelectorAll('[data-step]').forEach(button => {
 });
 
 /**
- * Gère l'affichage/masquage des champs conditionnels
+ * Gère l'affichage/masquage des champs conditionnels selon la présence
  */
 document.querySelectorAll('input[name="attendance"]').forEach(radio => {
   radio.addEventListener('change', () => {
-    const attendanceFields = document.querySelector('.attendance-fields');
-    if (radio.value === 'oui' && radio.checked) {
-      attendanceFields.style.display = 'block';
-    } else if (radio.value === 'non' && radio.checked) {
-      attendanceFields.style.display = 'none';
-    }
+    toggleAttendanceFields(radio.value === 'oui');
   });
 });
 
@@ -135,51 +148,47 @@ form.addEventListener('submit', async event => {
   submitButton.textContent = 'Envoi en cours…';
 
   try {
-    // Collecter les données du formulaire
+    // Collecter les données du formulaire (les champs disabled sont exclus automatiquement)
     const formData = Object.fromEntries(new FormData(form));
+    const isComing = formData.attendance === 'oui';
     
-    // Construire un tableau d'objets pour chaque personne
+    // Construire un tableau d'objets pour chaque personne (uniquement si présent)
     const guests = [];
     
-    // Ajouter les adultes
-    for (let index = 1; index <= values.adults; index++) {
-      const adultName = formData[`adultName${index}`];
-      if (adultName) {
-        guests.push({
-          name: adultName,
-          type: 'adulte',
-          age: null
-        });
+    if (isComing) {
+      // Ajouter les adultes
+      for (let index = 1; index <= values.adults; index++) {
+        const adultName = formData[`adultName${index}`];
+        if (adultName) {
+          guests.push({ name: adultName, type: 'adulte', age: null });
+        }
+      }
+      
+      // Ajouter les enfants
+      for (let index = 1; index <= values.children; index++) {
+        const childName = formData[`childName${index}`];
+        const childAge = formData[`childAge${index}`];
+        if (childName && childAge) {
+          guests.push({ name: childName, type: 'enfant', age: parseInt(childAge) });
+        }
       }
     }
     
-    // Ajouter les enfants
-    for (let index = 1; index <= values.children; index++) {
-      const childName = formData[`childName${index}`];
-      const childAge = formData[`childAge${index}`];
-      if (childName && childAge) {
-        guests.push({
-          name: childName,
-          type: 'enfant',
-          age: parseInt(childAge)
-        });
-      }
-    }
-    
-    // Créer un objet de données global (pour infos générales)
+    // Créer l'objet de données
     const globalData = {
       confirmedAt: new Date().toISOString(),
       name: formData.name,
       phone: formData.phone,
       email: formData.email,
       attendance: formData.attendance,
+      // Champs présence : vides si refus (exclus du FormData par disabled)
       arrival: formData.arrival || '',
       arrivalTime: formData.arrivalTime || '',
       departure: formData.departure || '',
       departureTime: formData.departureTime || '',
       transport: formData.transport || '',
-      adults: values.adults,
-      children: values.children,
+      adults: isComing ? values.adults : 0,
+      children: isComing ? values.children : 0,
       guests: guests,
       sleeping: formData.sleeping || '',
       arrivalStation: formData.arrivalStation || '',
@@ -197,38 +206,34 @@ form.addEventListener('submit', async event => {
 
     console.log('📤 Envoi des données:', globalData);
 
-    // Envoyer les données globales au Google Apps Script
-    // mode 'no-cors' + Content-Type 'text/plain' évite le preflight CORS bloqué par GitHub Pages
+    // Envoyer au Google Apps Script
     await fetch(GOOGLE_APPS_SCRIPT_URL, {
       method: 'POST',
       mode: 'no-cors',
       headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify(globalData)
     });
-    console.log('✅ Données envoyées au script Google (réponse opaque — normal en no-cors)');
+    console.log('✅ Données envoyées (réponse opaque — normal en no-cors)');
 
     // Message de succès personnalisé
-    const isComing = formData.attendance === 'oui';
     if (isModification) {
       successMessage.innerHTML = isComing
         ? `<strong>${formData.name}</strong>, ta réponse a été mise à jour ! 🎉<br><br>Un email de confirmation t'a été envoyé à <strong>${formData.email}</strong>.`
-        : `<strong>${formData.name}</strong>, ta réponse a bien été modifiée ! 💌<br><br>Un email de confirmation t'a été envoyé à <strong>${formData.email}</strong>.`;
+        : `<strong>${formData.name}</strong>, ta réponse a bien été modifiée. 💌<br><br>On espère quand même te revoir bientôt !`;
     } else {
       successMessage.innerHTML = isComing
         ? `<strong>${formData.name}</strong>, c'est noté ! 🎉<br><br>Un email de confirmation t'a été envoyé à <strong>${formData.email}</strong>. À très vite pour fêter ça !`
-        : `<strong>${formData.name}</strong>, merci beaucoup pour ta réponse ! 💌<br><br>Un email de confirmation t'a été envoyé à <strong>${formData.email}</strong>.`;
+        : `<strong>${formData.name}</strong>, merci pour ta réponse ! 💌<br><br>C'est dommage, mais on comprend. On pense fort à toi !`;
     }
 
   } catch (error) {
-    // Gestion des erreurs
     console.error('❌ Erreur lors de l\'envoi:', error);
     successMessage.innerHTML = `
       <strong>Oups !</strong><br><br>
-      Ta réponse a bien été sauvegardée sur cet appareil, mais n'a pas pu être envoyée à nos serveurs.<br><br>
+      Ta réponse a bien été sauvegardée sur cet appareil, mais n'a pas pu être envoyée.<br><br>
       <small>Essaie de rafraîchir la page et de réessayer. Si le problème persiste, contacte-nous directement.</small>
     `;
   } finally {
-    // Réactiver le bouton et afficher le succès
     submitButton.disabled = false;
     submitButton.textContent = originalText;
     
@@ -250,9 +255,14 @@ document.querySelector('#editResponse').addEventListener('click', () => {
 
 // Initialisation
 populateFormWithSavedData();
-renderGuestDetails(); // appel inconditionnel : affiche les champs dès le premier chargement
+// Si aucune donnée sauvegardée, vérifier l'état initial du radio (oui = checked par défaut)
+if (!getSavedData()) {
+  const defaultAttendance = form.querySelector('input[name="attendance"]:checked');
+  if (defaultAttendance) toggleAttendanceFields(defaultAttendance.value === 'oui');
+}
+renderGuestDetails();
 
-// Animations douces au scroll pour la nouvelle direction artistique.
+// Animations douces au scroll
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     if (entry.isIntersecting) {
