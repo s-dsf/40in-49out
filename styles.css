@@ -32,8 +32,11 @@
 @media(max-width:900px){.logement-inner{grid-template-columns:1fr 1fr;grid-template-rows:auto auto}.logement-photo{grid-column:1/-1;min-height:300px}.venue-card{grid-column:1/-1;box-shadow:none}}
 @media(max-width:700px){.logement-inner{grid-template-columns:1fr}.logement-text{padding:60px 22px 50px}.hero-subtitle{font-size:1rem}}
 /* Corrections visuelles — sept 2026 */
-/* 1. Logo S&D : espacement plus lisible */
-.brand{letter-spacing:-.03em;font-size:1.05rem}
+/* 1. Logo S&D — texte serif simple sans cercle (comme maquette) */
+.brand{width:auto;height:auto;border:none;border-radius:0;box-shadow:none;display:flex;align-items:baseline;gap:0;font:unset;letter-spacing:0;padding:0}
+.brand span{all:unset}
+.brand-s,.brand-d{font:500 1.05rem/1 var(--serif);color:var(--ink);letter-spacing:.04em}
+.brand-amp{font:italic .72rem/1 var(--serif);color:var(--clay);margin:0 1px}
 /* 2. Titre hero moins grand */
 .hero h1{font-size:clamp(3rem,7vw,6rem);line-height:.72;margin-bottom:30px}
 /* 3. Bouton CTA hero en terracotta */
@@ -41,3 +44,14 @@
 .hero .button-light:hover{background:var(--clay-dark)}
 /* 4. Pictos day-card : taille et style cohérent */
 .day-icon{font-size:1.6rem;margin:22px 0 8px;color:var(--clay);font-style:normal}
+/* 5. Pictos transport : icône centrée au-dessus du titre */
+.access-grid article{display:flex;flex-direction:column;text-align:center;align-items:center}
+.transport-icon{display:block;font-size:1.6rem;margin-bottom:10px;line-height:1}
+.access-grid h3{display:block;font-size:1.4rem;margin:0 0 2px;font-family:var(--serif);font-weight:600}
+.access-grid small{display:block;color:var(--clay);font-weight:700;margin-bottom:0}
+.access-grid p{font-size:.82rem;color:var(--muted);line-height:1.5;margin:14px 0 0;text-align:center}
+/* 6. Gîte — sans bande blanche, sans gap entre photo et carte */
+.venue-card{box-shadow:none}
+.logement-inner{gap:0}
+/* Icône lit dans le titre gîte */
+.logement-icon{font-size:1.8rem;vertical-align:middle;margin-right:8px;display:inline-block}
