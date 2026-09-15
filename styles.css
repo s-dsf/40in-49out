@@ -55,7 +55,7 @@
 .logement-inner{gap:0}
 /* Icône lit dans le titre gîte */
 .logement-icon{font-size:1.8rem;vertical-align:middle;margin-right:8px;display:inline-block}
-/* 7. Programme h2 — "beaucoup trop de souvenirs" sur une seule ligne */
-.programme .section-head h2{font-size:clamp(2.5rem,4.2vw,4.5rem)}
-/* 8. Footer mark — taille réduite */
-.footer-mark{font-size:clamp(2.5rem,5vw,4.5rem)}
+/* 7. Programme h2 — "beaucoup trop de souvenirs" sur une seule ligne, centré */
+.programme .section-head h2{font-size:clamp(2.5rem,4.2vw,4.5rem);text-align:center}
+/* 8. Footer mark — taille réduite + espace après pour éviter le chevauchement */
+.footer-mark{font-size:clamp(2.5rem,5vw,4.5rem);margin-bottom:60px}

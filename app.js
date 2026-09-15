@@ -36,6 +36,10 @@ function toggleAttendanceFields(attending) {
     // Vider les champs dynamiques pour éviter des required orphelins
     document.querySelector('#guestDetails').innerHTML = '';
   }
+  // Texte du bouton selon la réponse
+  submitButton.innerHTML = attending
+    ? 'C\'est parti, je m\'inscris <span>→</span>'
+    : 'J\'envoie ma réponse <span>→</span>';
 }
 
 /**
