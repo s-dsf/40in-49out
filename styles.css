@@ -59,3 +59,9 @@
 .programme .section-head h2{font-size:clamp(2.5rem,4.2vw,4.5rem);text-align:center}
 /* 8. Footer mark — taille réduite + espace après pour éviter le chevauchement */
 .footer-mark{font-size:clamp(2.5rem,5vw,4.5rem);margin-bottom:60px}
+/* 9. Badge Obligatoire — vendredi & samedi */
+.required-badge{display:inline-block;font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#fff9ef;background:var(--clay);border-radius:2px;padding:2px 8px;margin:4px 0 0;font-family:var(--sans)}
+/* 10. Logement — alerte places limitées */
+.logement-warning{font-size:.82rem;font-weight:600;color:var(--clay);margin-top:12px;line-height:1.5}
+/* 11. Mobile CTA Je viens — fond terracotta conservé */
+@media(max-width:768px){.mobile-rsvp{background:var(--clay)!important;color:#fff9ef!important;padding:6px 14px;border-radius:3px}.mobile-rsvp:hover{background:var(--clay-dark)!important}}
