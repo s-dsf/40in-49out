@@ -241,14 +241,6 @@ form.addEventListener('submit', async event => {
   }
 });
 
-/**
- * Permet de modifier sa réponse
- */
-document.querySelector('#editResponse').addEventListener('click', () => {
-  success.classList.add('hidden');
-  form.classList.remove('hidden');
-  rsvpIntro.classList.remove('hidden');
-  window.scrollTo({ top: form.offsetTop - 100, behavior: 'smooth' });
 });
 
 // Initialisation
