@@ -64,7 +64,6 @@ function populateFormWithSavedData() {
   setField('departure', savedData.departure || 'dimanche 9 mai');
   setField('transport', savedData.transport);
   setField('sleeping', savedData.sleeping || 'oui');
-  setField('arrivalStation', savedData.arrivalStation);
   setField('food', savedData.food || 'aucun');
   setField('message', savedData.message);
 
@@ -191,7 +190,6 @@ form.addEventListener('submit', async event => {
       children: isComing ? values.children : 0,
       guests: guests,
       sleeping: formData.sleeping || '',
-      arrivalStation: formData.arrivalStation || '',
       food: formData.food || '',
       message: formData.message || ''
     };
