@@ -241,7 +241,6 @@ form.addEventListener('submit', async event => {
   }
 });
 
-});
 
 // Initialisation
 populateFormWithSavedData();
