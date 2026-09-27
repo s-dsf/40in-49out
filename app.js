@@ -61,9 +61,7 @@ function populateFormWithSavedData() {
   setField('email', savedData.email);
   setField('attendance', savedData.attendance || 'oui');
   setField('arrival', savedData.arrival || 'jeudi 6 mai');
-  setField('arrivalTime', savedData.arrivalTime);
   setField('departure', savedData.departure || 'dimanche 9 mai');
-  setField('departureTime', savedData.departureTime);
   setField('transport', savedData.transport);
   setField('sleeping', savedData.sleeping || 'oui');
   setField('arrivalStation', savedData.arrivalStation);
@@ -187,9 +185,7 @@ form.addEventListener('submit', async event => {
       attendance: formData.attendance,
       // Champs présence : vides si refus (exclus du FormData par disabled)
       arrival: formData.arrival || '',
-      arrivalTime: formData.arrivalTime || '',
       departure: formData.departure || '',
-      departureTime: formData.departureTime || '',
       transport: formData.transport || '',
       adults: isComing ? values.adults : 0,
       children: isComing ? values.children : 0,
